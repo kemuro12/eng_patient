@@ -1,10 +1,11 @@
 import './App.css';
 
 import styled from 'styled-components';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import UserInfo from './components/UserInfo';
 import LoginPage from './components/LoginPage';
 import { useSelector } from 'react-redux';
+import NotFound from './components/NotFound';
 
 const ContainerDiv = styled.div`
     position: relative;
@@ -37,15 +38,16 @@ const RightImg = styled.img`
 function App() {
     const user = useSelector(state => state.user.user);
 
-    
-
     return (
         <ContainerDiv>
             <LeftImg src="https://my.subtitles.love/static/media/login_scr_left.6cb41681.svg" />
             <RightImg src="https://my.subtitles.love/static/media/login_scr_right.745716da.svg" />
-
-            <Route exact path="/" render={() => <LoginPage currentForm="signin" />} />
-            <Route exact path="/user" render={() => user ? <UserInfo /> : <LoginPage currentForm="signin" />} />
+            <Switch>
+                <Route exact path="/" render={() => <LoginPage currentForm="signin" />} />
+                <Route exact path="/user" render={() => user ? <UserInfo /> : <LoginPage currentForm="signin" />} />
+                <Route path="*" render={() => <NotFound/>} />
+            </Switch>
+            
         </ContainerDiv>
     );
 }

@@ -21,7 +21,7 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build PUBLIC_URL=/eng_patient",
-    "start": "react-scripts start PUBLIC_URL=/eng_patient",
+    "start": "react-scripts start PUBLIC_URL=/",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
