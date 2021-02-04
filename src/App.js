@@ -37,6 +37,8 @@ const RightImg = styled.img`
 function App() {
     const user = useSelector(state => state.user.user);
 
+    
+
     return (
         <ContainerDiv>
             <LeftImg src="https://my.subtitles.love/static/media/login_scr_left.6cb41681.svg" />
