@@ -1,9 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import logout_icon from '../images/logout.png';
+import { logout } from '../redux/auth-reducer';
 
 const ContainerDiv = styled.div`
+    position:relative;
     padding: 35px 47px;
     max-width:420px;
     width:100%;
@@ -34,11 +36,37 @@ const InfoDiv = styled.div`
     }
 `
 
+const IconDiv = styled.div`
+    border-radius:50%;
+    position:absolute;
+    top:12px;
+    right:18px;
+    padding:20px;
+    transition:background 0.1s linear;
+    :hover{
+        background:rgb(249,7,7,0.2);
+        cursor:pointer;
+    }
+    img{
+        position:absolute;
+        top:7px;
+        left:5px;   
+    }
+`
+
 const UserInfo = props => {
     const user = useSelector(state => state.user.user);
+    const dispatch = useDispatch();
+
+    const onLogoutClick = () => {
+        dispatch(logout())
+    }
 
     return (
         <ContainerDiv>
+            <IconDiv onClick={ onLogoutClick }>
+                <img width="24" src={ logout_icon } alt="logout"/>
+            </IconDiv>
             <Row>
                 <img alt="avatar" width="140" src="https://www.englishpatient.org/english-patient-files/acc8cfe3-58d0-4cab-bba7-6a61747c0456.jpg"/>
                 <InfoDiv>

@@ -26,9 +26,9 @@ export const setUserData = user => {
     }
 }
 
-export const getUser = (token) => {
+export const getUser = () => {
     return async (dispatch) => {
-        let response = await usersAPI.getUser(token);
+        let response = await usersAPI.getUser();
         if(response.data.result){
             let user = response.data.result.user;
             

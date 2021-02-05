@@ -2,13 +2,26 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import authReducer from './auth-reducer';
 import usersReducer from './user-reducer';
+import appReducer from './app-reducer';
 
-
-let reducers = combineReducers({
+const reducers = combineReducers({
+    app: appReducer,
     user: usersReducer,
     auth: authReducer
 });
 
-let store = createStore(reducers, applyMiddleware(thunkMiddleware));
+const rootReducer = (state, action) => {
+    if(action.type === 'auth/LOGOUT') {
+        state = {
+            app :{
+                isInitialized: true
+            }
+        };
+    }
+
+    return reducers(state, action);
+}
+
+let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 export default store;

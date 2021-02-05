@@ -7,8 +7,10 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/auth-reducer';
 import { useHistory } from 'react-router-dom';
+import Preloader from '../templates/Preloader';
 
 const MainDiv = styled.div`
+    position:relative;
     padding: 35px 47px;
     max-width:420px;
     width:100%;
@@ -86,22 +88,26 @@ const LineDiv = styled.div`
     }
 `
 
-const LoaderImg = styled.img`
-    -ms-interpolation-mode:bicubic;
-    width:20px;
-`
-
 const ErrorMessageSpan = styled.span`
     display:block;
     text-align:center;
     color:red;
     font-size:16px;
 `
-
+const ModalDiv = styled.div`
+    width:100%;
+    height:100%;
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:120;
+    background:rgb(0,0,0,0.5);
+    border-raduis:12px;
+`
 
 const SignInForm = props => {
-    const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
+    const [email, setEmail] = useState('sha-sabir@yandex.ru');
+    const [pass, setPass] = useState('sabirmipt');
 
     const isFetching = useSelector(state => state.auth.isFetching);
     const errorMessage = useSelector(state => state.auth.errorMessage);
@@ -112,16 +118,18 @@ const SignInForm = props => {
     const handleSubmit = async e => {
         e.preventDefault();
         const response = await dispatch(login(email, pass));
-        if(response) history.push("/user");
-        else{
-            setEmail("");
-            setPass("");
-        }
-        
+        if(response) history.push("/");
+        else setPass("");
     }
 
     return (
         <MainDiv>
+            { isFetching ? 
+                <ModalDiv>
+                    <Preloader />
+                </ModalDiv> 
+            : ""}
+            
             <h2>Sign In</h2>
             <Row>
                 <ButtonWithIcon iconUrl="https://my.subtitles.love/static/media/bt_icon_face.8550be43.svg">Continue with Facebook</ButtonWithIcon>
@@ -134,9 +142,9 @@ const SignInForm = props => {
 
             <StyledForm onSubmit={ handleSubmit }>
                 <p>Email</p>
-                <Input value={email} onChange={e => setEmail(e.target.value)} type="email"></Input>
+                <Input required value={email} onChange={e => setEmail(e.target.value)} type="email"></Input>
                 <p>Password</p>
-                <Input value={pass} onChange={e => setPass(e.target.value)} type="password"></Input> 
+                <Input required value={pass} onChange={e => setPass(e.target.value)} type="password"></Input> 
                 <ForgotSpan onClick={() => props.onCurrentFormChange('forgot')}>Forgot password</ForgotSpan>
 
                 <ErrorMessageSpan>
@@ -144,7 +152,7 @@ const SignInForm = props => {
                 </ErrorMessageSpan>
 
                 <Button type="submit">
-                    { isFetching ? <LoaderImg src="https://i.stack.imgur.com/qq8AE.gif"/> : "Login"}
+                    Login
                 </Button>
             </StyledForm>
             <SignUpP onClick={() => props.onCurrentFormChange('signup')}>Don't have an account? <span>Sign Up</span></SignUpP>
