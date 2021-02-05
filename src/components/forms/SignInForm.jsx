@@ -106,8 +106,8 @@ const ModalDiv = styled.div`
 `
 
 const SignInForm = props => {
-    const [email, setEmail] = useState('sha-sabir@yandex.ru');
-    const [pass, setPass] = useState('sabirmipt');
+    const [email, setEmail] = useState('');
+    const [pass, setPass] = useState('');
 
     const isFetching = useSelector(state => state.auth.isFetching);
     const errorMessage = useSelector(state => state.auth.errorMessage);
